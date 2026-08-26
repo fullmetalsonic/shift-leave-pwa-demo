@@ -39,8 +39,22 @@
 
 ## 게시 후 확인
 
-- 저장소 `Public` 표시
-- GitHub Actions 성공
-- Pages 주소 HTTP 200
-- 저장소와 Pages의 제목·설명·버전 일치
-- 데모 페이지에서 외부 API 요청이 없는지 재확인
+게시일: 2026-08-26 (Asia/Seoul)
+
+| 확인 | 결과 | 증거 |
+| --- | --- | --- |
+| 공개 저장소 | PASS | `fullmetalsonic/shift-leave-pwa-demo`, `PUBLIC` |
+| 운영 저장소 분리 | PASS | 새 root commit으로 작성, 운영 Git 이력 없음 |
+| 첫 공개 커밋 | PASS | `1cfac0942dbe07f58001c34cda4b355b8e94e0da` |
+| GitHub Actions | PASS | [Verify and deploy demo #32951393448](https://github.com/fullmetalsonic/shift-leave-pwa-demo/actions/runs/32951393448) |
+| 데모 Pages | PASS | [공개 데모](https://fullmetalsonic.github.io/shift-leave-pwa-demo/) HTTP 200 |
+| 상세 설명서 Pages | PASS | [상세 사용설명서](https://fullmetalsonic.github.io/shift-leave-pwa-demo/guide.html) HTTP 200 |
+| 제목 일치 | PASS | `교대근무 휴가·대근 공개 데모`, `상세 사용설명서 · 교대근무 데모` |
+
+공개 페이지 재검사는 PowerShell에서 다음과 같이 실행한다.
+
+```powershell
+$env:DEMO_BASE_URL = "https://fullmetalsonic.github.io/shift-leave-pwa-demo"
+pnpm test
+Remove-Item Env:DEMO_BASE_URL
+```

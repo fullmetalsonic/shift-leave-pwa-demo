@@ -3,9 +3,12 @@ import { expect, test } from "@playwright/test";
 
 function observeExternalRequests(page) {
   const external = [];
+  const allowedHost = new URL(
+    process.env.DEMO_BASE_URL ?? "http://127.0.0.1:4174",
+  ).hostname;
   page.on("request", (request) => {
     const url = new URL(request.url());
-    if (!["127.0.0.1", "localhost"].includes(url.hostname)) {
+    if (url.hostname !== allowedHost) {
       external.push(request.url());
     }
   });
@@ -14,7 +17,7 @@ function observeExternalRequests(page) {
 
 test("공개 데모의 5개 화면은 설명·키보드·모바일·접근성 기준을 지킨다", async ({ page }) => {
   const externalRequests = observeExternalRequests(page);
-  await page.goto("/");
+  await page.goto("./");
 
   await expect(page).toHaveTitle("교대근무 휴가·대근 공개 데모");
   await expect(page.getByText("데모 모드 · 외부 연결 없음")).toBeVisible();
@@ -54,7 +57,7 @@ test("공개 데모의 5개 화면은 설명·키보드·모바일·접근성 �
 
 test("날짜 선택과 데모 입력은 상태를 설명하고 서버에 저장하지 않는다", async ({ page }) => {
   const externalRequests = observeExternalRequests(page);
-  await page.goto("/");
+  await page.goto("./");
 
   await page.getByRole("button", { name: /8월 3일.*종일 휴가/ }).click();
   await expect(page.locator("#selected-entry")).toHaveText("종일 휴가");
@@ -70,7 +73,7 @@ test("날짜 선택과 데모 입력은 상태를 설명하고 서버에 저장�
 
 test("대근 지원은 합성 상태만 토글한다", async ({ page }) => {
   const externalRequests = observeExternalRequests(page);
-  await page.goto("/");
+  await page.goto("./");
   await page.getByRole("tab", { name: "대근" }).click();
   const support = page.getByRole("button", { name: "지원하기" });
   await support.click();
@@ -83,7 +86,7 @@ test("대근 지원은 합성 상태만 토글한다", async ({ page }) => {
 
 test("상세 설명서는 목적·입력·역할·오류·한계를 제공한다", async ({ page }) => {
   const externalRequests = observeExternalRequests(page);
-  await page.goto("/guide.html");
+  await page.goto("./guide.html");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("상세 사용설명서");
   for (const heading of ["공통 사용법", "내 근무표", "전체근무", "대근 수요", "일정·공지", "역할별 작업 차이", "오류·정정·복구", "안전·정확도 한계"]) {
     await expect(page.getByRole("heading", { name: heading })).toBeVisible();
