@@ -67,6 +67,12 @@ function showToast(message) {
   toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 3200);
 }
 
+function hideToast() {
+  const toast = document.querySelector("#toast");
+  window.clearTimeout(toastTimer);
+  toast.classList.remove("visible");
+}
+
 function selectScreen(name, focusPanel = true) {
   const targetPanel = document.querySelector(`[data-panel="${name}"]`);
   const targetGroup = targetPanel?.dataset.panelGroup ?? name;
@@ -263,25 +269,60 @@ function setupDialog() {
   const description = document.querySelector("#dialog-description");
   const unitLabel = document.querySelector("#dialog-unit-label");
   const unit = document.querySelector("#dialog-unit");
+  const unitHint = document.querySelector("#dialog-unit-hint");
+  const hoursLabel = document.querySelector("#dialog-hours-label");
+  const hours = document.querySelector("#dialog-hours");
+  const note = document.querySelector("#dialog-note");
+
+  function updateHoursVisibility() {
+    hideToast();
+    const isLeave = dialog.dataset.entryType === "leave";
+    hoursLabel.hidden = isLeave && unit.value !== "hourly";
+    hoursLabel.firstChild.textContent = isLeave ? "휴가 시간" : "근무 시간";
+  }
+
+  unit.addEventListener("change", updateHoursVisibility);
+  hours.addEventListener("input", hideToast);
 
   document.querySelectorAll("[data-open-dialog]").forEach((button) => {
     button.addEventListener("click", () => {
       const type = button.dataset.openDialog;
       const isLeave = type === "leave";
+      dialog.dataset.entryType = type;
       title.textContent = isLeave ? "휴가 입력" : "근무변경 입력";
       description.textContent = isLeave ? "선택한 날짜에 휴가 예시를 입력합니다." : "선택한 날짜에 근무변경 예시를 입력합니다.";
-      unitLabel.firstChild.textContent = isLeave ? "휴가 단위" : "근무 시간";
+      unitLabel.firstChild.textContent = isLeave ? "휴가 단위" : "근무 형태";
       unit.innerHTML = isLeave
-        ? "<option>종일 1일</option><option>반일 0.5일</option>"
-        : "<option>주간 대근 12시간</option><option>야간 대근 12시간</option><option>지원 4시간</option>";
+        ? '<option value="full">1일 휴가 (1.00일)</option><option value="half">반차 (0.50일)</option><option value="quarter">반반차 (0.25일)</option><option value="hourly">시간 직접 입력</option>'
+        : '<option value="substitute_day">주간 대근</option><option value="substitute_night">야간 대근</option><option value="education">교육</option><option value="support">지원</option><option value="other">기타</option>';
+      unitHint.textContent = isLeave
+        ? "빠른 단위를 선택하거나 실제 사용 시간을 30분 단위로 직접 입력합니다."
+        : "근무 형태와 실제 시간을 따로 선택해 4시간 외의 지원 근무도 입력할 수 있습니다.";
+      hours.value = isLeave ? "0.5" : "12";
+      note.value = "";
+      hideToast();
+      updateHoursVisibility();
       dialog.showModal();
     });
   });
 
   document.querySelector("#dialog-save").addEventListener("click", (event) => {
     event.preventDefault();
+    const requiresHours = dialog.dataset.entryType === "work" || unit.value === "hourly";
+    const numericHours = Number(hours.value);
+    if (
+      requiresHours &&
+      (!Number.isFinite(numericHours) ||
+        numericHours < 0.5 ||
+        numericHours > 24 ||
+        !Number.isInteger(numericHours * 2))
+    ) {
+      showToast("저장 불가 · 시간은 0.5시간부터 24시간까지 30분 단위로 입력하세요.");
+      hours.focus();
+      return;
+    }
     dialog.close();
-    showToast("데모 저장 예시를 확인했습니다. 서버에는 저장되지 않았습니다.");
+    showToast(`데모 저장 예시를 확인했습니다. 선택 메모는 ${note.value.trim() ? "입력됨" : "비어 있음"}이며 서버에는 저장되지 않았습니다.`);
   });
 }
 

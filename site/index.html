@@ -279,8 +279,11 @@
         <div class="dialog-heading"><div><p class="eyebrow">합성 입력</p><h2 id="dialog-title">휴가 입력</h2></div><button class="icon-button" value="cancel" aria-label="입력창 닫기">×</button></div>
         <p id="dialog-description">선택한 날짜에 휴가 예시를 입력합니다.</p>
         <label>날짜<input id="dialog-date" type="date" value="2026-08-26" /></label>
-        <label id="dialog-unit-label">휴가 단위<select id="dialog-unit"><option>종일 1일</option><option>반일 0.5일</option></select></label>
-        <p class="field-hint">저장하면 달력과 선택일 상세가 달라지는 예시를 보여 주지만 서버에는 기록되지 않습니다.</p>
+        <label id="dialog-unit-label">휴가 단위<select id="dialog-unit"><option value="full">1일 휴가 (1.00일)</option><option value="half">반차 (0.50일)</option><option value="quarter">반반차 (0.25일)</option><option value="hourly">시간 직접 입력</option></select></label>
+        <p id="dialog-unit-hint" class="field-hint">빠른 단위를 선택하거나 실제 사용 시간을 30분 단위로 직접 입력합니다.</p>
+        <label id="dialog-hours-label" hidden>휴가 시간<input id="dialog-hours" type="number" min="0.5" max="24" step="0.5" value="0.5" /><span class="field-hint">최소 0.5시간 · 0.5시간(30분) 간격 · 예: 1.5시간</span></label>
+        <label>메모 (선택)<textarea id="dialog-note" maxlength="1000" rows="3" placeholder="필요한 경우에만 간단히 입력"></textarea><span class="field-hint">비워 두어도 됩니다. 월간 현황·전체 근무표·공유 화면에는 표시하지 않습니다.</span></label>
+        <p class="field-hint">데모 저장은 입력 규칙과 결과 안내만 보여 주며 서버에는 기록되지 않습니다.</p>
         <div class="dialog-actions"><button class="secondary-button" value="cancel">취소</button><button id="dialog-save" class="primary-button" value="default">데모 저장</button></div>
       </form>
     </dialog>

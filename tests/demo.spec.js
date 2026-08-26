@@ -74,7 +74,7 @@ test("공개 데모의 4개 주 메뉴와 내부 보기는 설명·키보드·�
   expect(externalRequests).toEqual([]);
 });
 
-test("날짜 선택과 데모 입력은 상태를 설명하고 서버에 저장하지 않는다", async ({ page }) => {
+test("날짜 선택과 데모 입력은 상태를 설명하고 서버에 저장하지 않는다", async ({ page }, testInfo) => {
   const externalRequests = observeExternalRequests(page);
   await page.goto("./");
 
@@ -85,8 +85,30 @@ test("날짜 선택과 데모 입력은 상태를 설명하고 서버에 저장�
   const dialog = page.getByRole("dialog", { name: "휴가 입력" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByLabel("날짜")).toHaveValue("2026-08-03");
+  await dialog.getByLabel("휴가 단위").selectOption("hourly");
+  const hours = dialog.getByLabel("휴가 시간");
+  await expect(hours).toHaveAttribute("min", "0.5");
+  await expect(hours).toHaveAttribute("step", "0.5");
+  await hours.fill("1.25");
   await dialog.getByRole("button", { name: "데모 저장" }).click();
-  await expect(page.locator("#toast")).toContainText("서버에는 저장되지 않았습니다");
+  await expect(page.locator("#toast")).toContainText("저장 불가");
+  await expect(dialog).toBeVisible();
+  await hours.fill("1.5");
+  await expect(page.locator("#toast")).not.toHaveClass(/visible/);
+  await dialog.getByLabel("메모 (선택)").fill("합성 선택 메모");
+  await page.screenshot({
+    path: testInfo.outputPath("hourly-leave-demo-dialog.png"),
+    fullPage: true,
+  });
+  await dialog.getByRole("button", { name: "데모 저장" }).click();
+  await expect(page.locator("#toast")).toContainText("선택 메모는 입력됨");
+
+  await page.getByRole("button", { name: "근무변경 입력" }).click();
+  const workDialog = page.getByRole("dialog", { name: "근무변경 입력" });
+  await expect(workDialog.getByLabel("근무 시간")).toHaveValue("12");
+  await workDialog.getByLabel("근무 시간").fill("7.5");
+  await workDialog.getByRole("button", { name: "데모 저장" }).click();
+  await expect(page.locator("#toast")).toContainText("선택 메모는 비어 있음");
   expect(externalRequests).toEqual([]);
 });
 
