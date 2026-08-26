@@ -61,6 +61,17 @@
 | 상세 설명서 Pages | PASS | [상세 사용설명서](https://fullmetalsonic.github.io/shift-leave-pwa-demo/guide.html) HTTP 200 |
 | 제목 일치 | PASS | `교대근무 휴가·대근 공개 데모`, `상세 사용설명서 · 교대근무 데모` |
 
+### V1.1.0 후속 게시 확인
+
+| 확인 | 결과 | 증거 |
+| --- | --- | --- |
+| 기능 커밋 | PASS | `c45ce7a1100298f7ddd8a1a97e05b08c83d814fa` |
+| GitHub Actions | PASS | [Verify and deploy demo #32961783520](https://github.com/fullmetalsonic/shift-leave-pwa-demo/actions/runs/32961783520) |
+| Pages 실제 URL E2E | PASS | 데스크톱 4건·Pixel 7 4건, 총 8건 |
+| 시간 입력 | PASS | 1.25시간 차단, 1.5·7.5시간 저장 예시 |
+| 선택 메모 | PASS | 입력·빈 값 모두 허용, 월간·전체·공유 비노출 설명 |
+| Release | PASS | [공개 데모 V1.1.0](https://github.com/fullmetalsonic/shift-leave-pwa-demo/releases/tag/demo-v1.1.0) |
+
 공개 페이지 재검사는 PowerShell에서 다음과 같이 실행한다.
 
 ```powershell

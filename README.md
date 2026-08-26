@@ -4,6 +4,7 @@
 
 - 공개 데모: <https://fullmetalsonic.github.io/shift-leave-pwa-demo/>
 - 상세 사용설명서: <https://fullmetalsonic.github.io/shift-leave-pwa-demo/guide.html>
+- V1.1.0 Release: <https://github.com/fullmetalsonic/shift-leave-pwa-demo/releases/tag/demo-v1.1.0>
 
 ## 실제 데모 화면
 
