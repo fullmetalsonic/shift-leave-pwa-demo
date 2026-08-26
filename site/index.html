@@ -41,26 +41,27 @@
 
     <nav class="main-nav" aria-label="주 메뉴">
       <div class="main-nav-tabs" role="tablist">
-      <button type="button" role="tab" aria-selected="true" aria-controls="screen-personal" id="tab-personal" data-screen="personal">
-        내 근무표
-      </button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="screen-all" id="tab-all" data-screen="all">
-        전체근무
-      </button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="screen-staffing" id="tab-staffing" data-screen="staffing">
-        대근
-      </button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="screen-schedule" id="tab-schedule" data-screen="schedule">
-        일정
-      </button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="screen-more" id="tab-more" data-screen="more">
-        더보기
-      </button>
+        <button type="button" role="tab" aria-selected="true" aria-controls="screen-personal" id="tab-work" data-screen="personal" data-nav-group="work">
+          근무표
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="screen-coverage" id="tab-coverage" data-screen="coverage" data-nav-group="coverage">
+          휴가·대근
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="screen-schedule" id="tab-schedule" data-screen="schedule" data-nav-group="schedule">
+          일정
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="screen-more" id="tab-more" data-screen="more" data-nav-group="more">
+          더보기
+        </button>
       </div>
     </nav>
 
     <main id="main-content" class="app-shell">
-      <section id="screen-personal" class="app-screen" role="tabpanel" aria-labelledby="tab-personal" data-panel="personal">
+      <section id="screen-personal" class="app-screen" role="tabpanel" aria-labelledby="tab-work" data-panel="personal" data-panel-group="work">
+        <div class="view-switch" role="group" aria-label="근무표 보기 방식">
+          <button type="button" aria-pressed="true" data-view="personal">내 근무표</button>
+          <button type="button" aria-pressed="false" data-view="all">전체 근무표</button>
+        </div>
         <div class="screen-title-row">
           <div>
             <p class="eyebrow">개인 일정</p>
@@ -125,7 +126,11 @@
         </div>
       </section>
 
-      <section id="screen-all" class="app-screen" role="tabpanel" aria-labelledby="tab-all" data-panel="all" hidden>
+      <section id="screen-all" class="app-screen" role="tabpanel" aria-label="전체 근무표" data-panel="all" data-panel-group="work" hidden>
+        <div class="view-switch" role="group" aria-label="근무표 보기 방식">
+          <button type="button" aria-pressed="false" data-view="personal">내 근무표</button>
+          <button type="button" aria-pressed="true" data-view="all">전체 근무표</button>
+        </div>
         <div class="screen-title-row">
           <div><p class="eyebrow">공용 일정</p><h2>전체근무</h2></div>
           <span class="role-badge">개인 사유 비공개</span>
@@ -133,7 +138,7 @@
         <div class="screen-guide" role="region" aria-label="전체근무 화면 안내">
           <p class="screen-purpose">같은 주의 A/B/C/D조와 상주 근무를 한눈에 비교하는 화면입니다.</p>
           <p class="screen-important"><strong>중요:</strong> `미1`은 미충원 1명을 뜻하며 휴가자의 이름·사유·개인 메모는 표시하지 않습니다.</p>
-          <div class="term-row"><span><strong>상주A/B</strong> 서로 다른 격주 금요일 휴무 예시</span><span><strong>미충원</strong> 필요 인원 중 아직 확정되지 않은 인원</span></div>
+          <div class="term-row"><span><strong>상주A/B</strong> 서로 다른 격주 금요일 휴무 예시</span><span><strong>미충원</strong> 필요 인원에서 현재 등록 인원을 뺀 값</span></div>
           <details><summary>이 화면 사용법</summary><ol><li>날짜 열을 찾습니다.</li><li>조별 주·야·휴를 비교합니다.</li><li>미충원 표식이 있으면 대근 화면에서 상세를 확인합니다.</li></ol></details>
         </div>
         <article class="card schedule-card">
@@ -148,38 +153,71 @@
         </article>
       </section>
 
-      <section id="screen-staffing" class="app-screen" role="tabpanel" aria-labelledby="tab-staffing" data-panel="staffing" hidden>
+      <section id="screen-coverage" class="app-screen" role="tabpanel" aria-labelledby="tab-coverage" data-panel="coverage" data-panel-group="coverage" hidden>
+        <div class="view-switch" role="group" aria-label="휴가·대근 보기 방식">
+          <button type="button" aria-pressed="true" data-view="coverage">월간 현황</button>
+          <button type="button" aria-pressed="false" data-view="staffing">대근 등록·지원</button>
+        </div>
         <div class="screen-title-row">
-          <div><p class="eyebrow">근무 공백 대응</p><h2>대근 수요</h2></div>
+          <div><p class="eyebrow">휴가자와 현재 대근자 · 월간 요약</p><h2>휴가·대근 현황</h2></div>
+          <span class="role-badge">합성 월간 예시</span>
+        </div>
+        <div class="screen-guide" role="region" aria-label="휴가·대근 월간 현황 화면 안내">
+          <p class="screen-purpose">날짜별 휴가자·대근자와 주간조·야간조를 한눈에 확인하는 화면입니다.</p>
+          <p class="screen-important"><strong>중요:</strong> 분홍색 `휴가`, 초록색 `대근`으로 구분합니다. 작업자의 대근 등록은 관리자 승인 없이 바로 표시됩니다.</p>
+          <div class="term-row"><span><strong>휴가</strong> 그날 휴가를 등록한 사람</span><span><strong>대근</strong> 자율 등록한 현재 대근자</span><span><strong>미충원</strong> 아직 부족한 대근 인원</span></div>
+          <details><summary>이 화면 사용법</summary><ol><li>월·화·수·목·금·토·일과 날짜별 주간조·야간조를 확인합니다.</li><li>분홍 휴가자와 초록 대근자 이름을 확인합니다.</li><li>미충원이 있으면 대근 등록·지원 화면에서 자율 등록합니다.</li></ol></details>
+        </div>
+        <article class="card coverage-card">
+          <div class="coverage-legend" aria-label="이름표 구분"><span class="coverage-person leave"><b>휴가</b> 이름</span><span class="coverage-person substitute"><b>대근</b> 이름</span><span class="coverage-missing">미충원</span></div>
+          <div class="coverage-month-heading"><button type="button" data-demo-action="month">‹<span class="sr-only">이전 달</span></button><h3>2026년 8월</h3><button type="button" data-demo-action="month"><span class="sr-only">다음 달</span>›</button></div>
+          <div class="coverage-weekdays" aria-hidden="true"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div>
+          <div id="coverage-calendar" class="coverage-calendar" role="group" aria-label="2026년 8월 휴가·대근 월간 현황"></div>
+          <section class="coverage-detail" aria-labelledby="coverage-detail-title">
+            <div><p class="card-kicker">선택한 날짜</p><h3 id="coverage-detail-title">08/26</h3><p id="coverage-detail-teams">주간 C조 · 야간 A조</p></div>
+            <div class="coverage-detail-groups"><div><strong id="coverage-leave-count">휴가자 1명</strong><div id="coverage-leave-people"></div></div><div><strong id="coverage-substitute-count">대근자 1명</strong><div id="coverage-substitute-people"></div></div></div>
+            <p id="coverage-detail-missing" class="coverage-detail-missing" hidden></p>
+            <button class="secondary-button" type="button" data-view="staffing">대근 등록·지원 보기</button>
+          </section>
+        </article>
+      </section>
+
+      <section id="screen-staffing" class="app-screen" role="tabpanel" aria-label="대근 등록·지원" data-panel="staffing" data-panel-group="coverage" hidden>
+        <div class="view-switch" role="group" aria-label="휴가·대근 보기 방식">
+          <button type="button" aria-pressed="false" data-view="coverage">월간 현황</button>
+          <button type="button" aria-pressed="true" data-view="staffing">대근 등록·지원</button>
+        </div>
+        <div class="screen-title-row">
+          <div><p class="eyebrow">근무 공백 대응</p><h2>대근 등록·지원</h2></div>
           <span class="role-badge">미충원 2건</span>
         </div>
         <div class="screen-guide" role="region" aria-label="대근 화면 안내">
-          <p class="screen-purpose">필요한 대근 인원과 지원·확정 상태를 확인하는 화면입니다.</p>
-          <p class="screen-important"><strong>중요:</strong> 지원은 근무 의사 표시이고 확정과 다릅니다. 실제 앱에서는 편집자 또는 관리자가 확정합니다.</p>
-          <div class="term-row"><span><strong>대근 수요</strong> 추가 근무자가 필요한 날짜·조·주야 근무</span><span><strong>미충원</strong> 필요 인원 − 확정 인원</span></div>
-          <details><summary>이 화면 사용법</summary><ol><li>날짜·조·주야와 필요 인원을 확인합니다.</li><li>지원 가능 여부를 판단합니다.</li><li>지원 후 확정 상태를 다시 확인합니다.</li></ol></details>
+          <p class="screen-purpose">필요한 대근 자리를 확인하고 작업자가 자율적으로 등록하는 화면입니다.</p>
+          <p class="screen-important"><strong>중요:</strong> 대근은 관리자 승인 방식이 아닙니다. 작업자가 등록하면 즉시 현재 대근자로 계산됩니다.</p>
+          <div class="term-row"><span><strong>대근 수요</strong> 추가 근무자가 필요한 날짜·조·주야 근무</span><span><strong>미충원</strong> 필요 인원 − 현재 등록 인원</span></div>
+          <details><summary>이 화면 사용법</summary><ol><li>날짜·조·주야와 필요 인원을 확인합니다.</li><li>본인의 근무 가능 여부를 확인합니다.</li><li>대근 등록을 누르면 현재 대근자로 바로 표시됩니다.</li></ol></details>
         </div>
         <div class="staffing-layout">
           <article class="need-card priority">
             <div class="need-top"><span class="need-date">8월 27일 목요일</span><span class="unfilled">미충원 1명</span></div>
             <h3>C조 · 야간 대근</h3>
-            <p>휴가 자동 생성 · 필요 1명 / 지원 0명 / 확정 0명</p>
-            <div class="progress-track" role="progressbar" aria-label="확정 인원" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span style="width: 0%"></span></div>
-            <button class="primary-button support-button" type="button" data-support>지원하기</button>
+            <p>휴가 자동 생성 · 필요 1명 / 현재 등록 0명</p>
+            <div class="progress-track" role="progressbar" aria-label="현재 등록 인원" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span style="width: 0%"></span></div>
+            <button class="primary-button support-button" type="button" data-support>대근 등록</button>
           </article>
           <article class="need-card">
             <div class="need-top"><span class="need-date">8월 29일 토요일</span><span class="unfilled">미충원 1명</span></div>
             <h3>A조 · 주간 대근</h3>
-            <p>중요 일정 연결 · 필요 2명 / 지원 1명 / 확정 1명</p>
-            <div class="progress-track" role="progressbar" aria-label="확정 인원" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span style="width: 50%"></span></div>
+            <p>중요 일정 연결 · 필요 2명 / 현재 등록 1명</p>
+            <div class="progress-track" role="progressbar" aria-label="현재 등록 인원" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span style="width: 50%"></span></div>
             <button class="secondary-button" type="button" data-demo-action="detail">상세 보기</button>
           </article>
           <aside class="card advice-card">
-            <p class="card-kicker">지원 전 확인</p>
+            <p class="card-kicker">등록 전 확인</p>
             <h3>주간 근로시간 예상</h3>
-            <strong class="hours-result">36시간 → 지원 시 48시간</strong>
+            <strong class="hours-result">36시간 → 등록 시 48시간</strong>
             <p>52시간 기준에 가까워지면 주의로 표시하지만, 현장 운영 규칙은 관리자 확인이 필요합니다.</p>
-            <span class="notice warning"><strong>주의 · 저장 가능</strong> 확정 전 근로시간을 확인하세요.</span>
+            <span class="notice warning"><strong>주의 · 저장 가능</strong> 등록 전 근로시간을 확인하세요.</span>
           </aside>
         </div>
       </section>

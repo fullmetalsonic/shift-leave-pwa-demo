@@ -18,7 +18,32 @@ const shiftDetails = {
 };
 
 let selectedDate = selectedInitialDate;
+let selectedCoverageDate = "2026-08-26";
 let toastTimer;
+
+const coverageRecords = {
+  "2026-08-26": [
+    { kind: "leave", name: "김하늘" },
+    { kind: "substitute", name: "박바다" },
+  ],
+  "2026-08-27": [{ kind: "leave", name: "이도윤" }],
+  "2026-08-29": [
+    { kind: "leave", name: "최새봄" },
+    { kind: "substitute", name: "오누리" },
+  ],
+};
+
+const coverageMissing = {
+  "2026-08-27": 1,
+  "2026-08-29": 1,
+};
+
+const coverageTeamPairs = [
+  { day: "B", night: "D" },
+  { day: "A", night: "C" },
+  { day: "D", night: "B" },
+  { day: "C", night: "A" },
+];
 
 function shiftForDay(day) {
   return shiftPattern[(day + 3) % shiftPattern.length];
@@ -43,16 +68,22 @@ function showToast(message) {
 }
 
 function selectScreen(name, focusPanel = true) {
+  const targetPanel = document.querySelector(`[data-panel="${name}"]`);
+  const targetGroup = targetPanel?.dataset.panelGroup ?? name;
   document.querySelectorAll("[data-screen]").forEach((button) => {
-    const selected = button.dataset.screen === name;
+    const selected = (button.dataset.navGroup ?? button.dataset.screen) === targetGroup;
     button.setAttribute("aria-selected", String(selected));
     button.tabIndex = selected ? 0 : -1;
+    if (selected && targetPanel) button.setAttribute("aria-controls", targetPanel.id);
   });
   document.querySelectorAll("[data-panel]").forEach((panel) => {
     panel.hidden = panel.dataset.panel !== name;
   });
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.view === name));
+  });
   if (focusPanel) {
-    document.querySelector(`[data-panel="${name}"] h2`)?.focus({ preventScroll: true });
+    targetPanel?.querySelector("h2")?.focus({ preventScroll: true });
   }
 }
 
@@ -72,6 +103,88 @@ function setupNavigation() {
       tabs[nextIndex].click();
     });
   });
+}
+
+function setupViewSwitches() {
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    button.addEventListener("click", () => selectScreen(button.dataset.view, false));
+  });
+}
+
+function coverageDateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function coverageTeamsAt(index) {
+  return coverageTeamPairs[Math.floor(index / 2) % coverageTeamPairs.length];
+}
+
+function coveragePersonMarkup(entry) {
+  const label = entry.kind === "leave" ? "휴가" : "대근";
+  return `<span class="coverage-person ${entry.kind}"><b>${label}</b>${entry.name}</span>`;
+}
+
+function updateCoverageDetail(key, index) {
+  const entries = coverageRecords[key] ?? [];
+  const leaves = entries.filter((entry) => entry.kind === "leave");
+  const substitutes = entries.filter((entry) => entry.kind === "substitute");
+  const missing = coverageMissing[key] ?? 0;
+  const teams = coverageTeamsAt(index);
+  const [, month, day] = key.split("-");
+
+  document.querySelector("#coverage-detail-title").textContent = `${month}/${day}`;
+  document.querySelector("#coverage-detail-teams").textContent = `주간 ${teams.day}조 · 야간 ${teams.night}조`;
+  document.querySelector("#coverage-leave-count").textContent = `휴가자 ${leaves.length}명`;
+  document.querySelector("#coverage-substitute-count").textContent = `대근자 ${substitutes.length}명`;
+  document.querySelector("#coverage-leave-people").innerHTML = leaves.length
+    ? leaves.map(coveragePersonMarkup).join("")
+    : '<span class="coverage-none">없음</span>';
+  document.querySelector("#coverage-substitute-people").innerHTML = substitutes.length
+    ? substitutes.map(coveragePersonMarkup).join("")
+    : '<span class="coverage-none">없음</span>';
+
+  const missingElement = document.querySelector("#coverage-detail-missing");
+  missingElement.hidden = missing === 0;
+  missingElement.textContent = missing ? `미충원 ${missing}명 · 대근 등록이 필요합니다.` : "";
+}
+
+function renderCoverageCalendar() {
+  const calendar = document.querySelector("#coverage-calendar");
+  const start = new Date(2026, 6, 27);
+  const fragment = document.createDocumentFragment();
+
+  for (let index = 0; index < 42; index += 1) {
+    const date = new Date(start.getFullYear(), start.getMonth(), start.getDate() + index);
+    const key = coverageDateKey(date);
+    const entries = coverageRecords[key] ?? [];
+    const teams = coverageTeamsAt(index);
+    const missing = coverageMissing[key] ?? 0;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `coverage-day${date.getMonth() !== DEMO_MONTH ? " outside" : ""}`;
+    button.setAttribute("aria-pressed", String(key === selectedCoverageDate));
+    button.setAttribute(
+      "aria-label",
+      `${date.getMonth() + 1}월 ${date.getDate()}일, 주간 ${teams.day}조, 야간 ${teams.night}조${entries.map((entry) => `, ${entry.kind === "leave" ? "휴가" : "대근"} ${entry.name}`).join("")}${missing ? `, 미충원 ${missing}명` : ""}`,
+    );
+    button.innerHTML = [
+      `<span class="coverage-date-number">${date.getDate()}</span>`,
+      `<span class="coverage-teams">주 ${teams.day} · 야 ${teams.night}</span>`,
+      entries.length ? `<span class="coverage-people">${entries.map(coveragePersonMarkup).join("")}</span>` : "",
+      missing ? `<span class="coverage-missing">미충원 ${missing}</span>` : "",
+    ].join("");
+    button.addEventListener("click", () => {
+      selectedCoverageDate = key;
+      calendar.querySelectorAll(".coverage-day").forEach((dayButton) => dayButton.setAttribute("aria-pressed", "false"));
+      button.setAttribute("aria-pressed", "true");
+      updateCoverageDetail(key, index);
+    });
+    fragment.append(button);
+  }
+
+  calendar.replaceChildren(fragment);
+  const selectedIndex = Math.round((new Date(`${selectedCoverageDate}T00:00:00`) - start) / 86_400_000);
+  updateCoverageDetail(selectedCoverageDate, selectedIndex);
 }
 
 function updateSelectedDate() {
@@ -178,6 +291,7 @@ function setupDemoActions() {
     detail: "합성 대근 상세입니다. 실제 근무자 정보는 포함하지 않습니다.",
     backup: "공개 데모에서는 운영 백업 파일을 만들지 않습니다.",
     account: "공개 데모에는 실제 계정이나 비밀번호가 없습니다.",
+    month: "공개 데모는 2026년 8월 합성 일정만 제공합니다.",
   };
   document.querySelectorAll("[data-demo-action]").forEach((button) => {
     button.addEventListener("click", () => showToast(messages[button.dataset.demoAction]));
@@ -187,14 +301,16 @@ function setupDemoActions() {
     const button = event.currentTarget;
     const supported = button.dataset.supported === "true";
     button.dataset.supported = String(!supported);
-    button.textContent = supported ? "지원하기" : "지원 취소";
+    button.textContent = supported ? "대근 등록" : "등록 취소";
     button.className = supported ? "primary-button support-button" : "secondary-button support-button";
-    showToast(supported ? "데모 지원을 취소했습니다." : "데모 지원 상태로 바뀌었습니다. 실제로 저장되지는 않습니다.");
+    showToast(supported ? "데모 대근 등록을 취소했습니다." : "현재 대근자로 표시되는 예시입니다. 실제로 저장되지는 않습니다.");
   });
 }
 
 setupNavigation();
+setupViewSwitches();
 renderCalendar();
 renderAllSchedule();
+renderCoverageCalendar();
 setupDialog();
 setupDemoActions();
