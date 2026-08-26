@@ -1,6 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+const operationalUrl = "https://shift-leave-pwa-operational.vercel.app";
+
 function observeExternalRequests(page) {
   const external = [];
   const allowedHost = new URL(
@@ -19,9 +21,26 @@ test("공개 데모의 4개 주 메뉴와 내부 보기는 설명·키보드·�
   const externalRequests = observeExternalRequests(page);
   await page.goto("./");
 
-  await expect(page).toHaveTitle("교대근무 휴가·대근 공개 데모");
-  await expect(page.getByText("데모 모드 · 외부 연결 없음")).toBeVisible();
+  await expect(page).toHaveTitle("교대근무 휴가·대근 · 소개와 공개 데모");
+  await expect(page.getByText("공개 안내 · 실제 앱과 데모 분리")).toBeVisible();
+  const liveLinks = page.getByRole("link", { name: /실제 앱 로그인|운영 앱 열기/ });
+  await expect(liveLinks).toHaveCount(3);
+  for (const liveLink of await liveLinks.all()) {
+    await expect(liveLink).toHaveAttribute("href", operationalUrl);
+    await expect(liveLink).toHaveAttribute("target", "_blank");
+    await expect(liveLink).toHaveAttribute("rel", "noopener noreferrer");
+  }
+  await expect(page.getByRole("link", { name: "합성 데모 체험" })).toHaveAttribute("href", "#demo");
+  await expect(page.getByRole("link", { name: "상세 사용설명서" }).first()).toHaveAttribute("href", "./guide.html");
   await expect(page.getByRole("tab")).toHaveCount(4);
+
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    ),
+    "소개 허브 가로 넘침",
+  ).toBe(false);
+  expect((await new AxeBuilder({ page }).analyze()).violations, "소개 허브 axe").toEqual([]);
 
   async function checkPanel(name, guideName) {
     const panel = page.locator(`[data-panel="${name}"]`);
@@ -135,9 +154,11 @@ test("상세 설명서는 목적·입력·역할·오류·한계를 제공한다
   const externalRequests = observeExternalRequests(page);
   await page.goto("./guide.html");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("상세 사용설명서");
-  for (const heading of ["공통 사용법", "내 근무표", "전체근무", "휴가·대근 월간 현황", "대근 등록·지원", "일정·공지", "역할별 작업 차이", "오류·정정·복구", "안전·정확도 한계"]) {
+  for (const heading of ["처음 접속하기", "공통 사용법", "내 근무표", "전체근무", "휴가·대근 월간 현황", "대근 등록·지원", "일정·공지", "역할별 작업 차이", "오류·정정·복구", "안전·정확도 한계"]) {
     await expect(page.getByRole("heading", { name: heading })).toBeVisible();
   }
+  await expect(page.getByRole("link", { name: "실제 앱 로그인" }).first()).toHaveAttribute("href", operationalUrl);
+  await expect(page.getByText("공개 저장소와 설명서에는 실제 로그인 이름, 비밀번호, 사용자 목록을 게시하지 않습니다.")).toBeVisible();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth,

@@ -1,6 +1,17 @@
 # 교대근무 휴가·대근 데모 상세 사용설명서
 
-이 설명서는 공개 데모를 처음 보는 사용자를 위한 자료입니다. 화면 데이터는 모두 합성이며 실제 저장되지 않습니다.
+이 설명서는 실제 운영 앱이나 공개 데모를 처음 보는 사용자를 위한 자료입니다. 데모 화면 데이터는 모두 합성이며 실제 저장되지 않습니다.
+
+## 처음 접속하기
+
+1. 실제 업무 사용자는 <https://shift-leave-pwa-operational.vercel.app>을 엽니다.
+2. 관리자가 부여한 로그인 이름과 초기 비밀번호를 입력합니다.
+3. 공개 공용 계정은 제공하지 않습니다. 계정을 받지 않았다면 공개 데모에서 합성 데이터로 화면을 체험합니다.
+4. 공용 기기에서는 사용 후 로그아웃하고, 비밀번호를 잊은 경우 관리자에게 초기화를 요청합니다.
+
+- 실제 운영 앱: <https://shift-leave-pwa-operational.vercel.app>
+- 합성 데이터 데모: <https://fullmetalsonic.github.io/shift-leave-pwa-demo/>
+- 웹 상세 설명서: <https://fullmetalsonic.github.io/shift-leave-pwa-demo/guide.html>
 
 ## 공통 화면
 

@@ -6,16 +6,16 @@
     <meta name="theme-color" content="#123f50" />
     <meta
       name="description"
-      content="실제 운영 시스템과 분리된 교대근무 휴가·대근 PWA 공개 데모"
+      content="교대근무 휴가·대근 관리 서비스 소개, 실제 앱 접속, 합성 데이터 공개 데모와 상세 사용설명서"
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ko_KR" />
-    <meta property="og:title" content="교대근무 휴가·대근 공개 데모" />
-    <meta property="og:description" content="합성 데이터로 살펴보는 교대근무 휴가·대근 앱 화면과 상세 사용법" />
+    <meta property="og:title" content="교대근무 휴가·대근 관리 · 소개와 공개 데모" />
+    <meta property="og:description" content="실제 앱 접속, 합성 데이터 체험, 화면별 상세 사용법을 한곳에서 확인하세요." />
     <meta property="og:url" content="https://fullmetalsonic.github.io/shift-leave-pwa-demo/" />
     <meta name="twitter:card" content="summary" />
     <link rel="canonical" href="https://fullmetalsonic.github.io/shift-leave-pwa-demo/" />
-    <title>교대근무 휴가·대근 공개 데모</title>
+    <title>교대근무 휴가·대근 · 소개와 공개 데모</title>
     <link rel="stylesheet" href="./assets/styles.css" />
     <script type="module" src="./assets/app.js"></script>
   </head>
@@ -24,22 +24,61 @@
     <header class="site-header">
       <div class="header-row">
         <div>
-          <p class="eyebrow">합성 데이터 · 공개 체험판</p>
-          <h1>교대근무 휴가·대근</h1>
+          <p class="eyebrow">서비스 소개 · 합성 데이터 공개 체험판</p>
+          <h1>교대근무 휴가·대근 관리</h1>
         </div>
         <div class="demo-status" role="status" aria-label="현재 연결 상태">
           <span class="status-dot" aria-hidden="true"></span>
-          데모 모드 · 외부 연결 없음
+          공개 안내 · 실제 앱과 데모 분리
         </div>
       </div>
       <p class="header-summary">
-        실제 계정이나 회사 데이터 없이 화면 구성과 업무 흐름을 살펴보세요.
-        입력은 서버에 저장되지 않으며 새로고침하면 초기화됩니다.
+        개인·전체 근무표, 휴가와 대근 수요, 월간 현황, 일정과 역할별 운영을 한곳에서 관리합니다.
+        실제 이용자는 관리자가 부여한 로그인 이름과 비밀번호로 접속합니다.
       </p>
-      <a class="guide-link" href="./guide.html">상세 사용설명서</a>
+      <div class="hero-actions" aria-label="주요 바로가기">
+        <a class="hero-button primary" href="https://shift-leave-pwa-operational.vercel.app" target="_blank" rel="noopener noreferrer">실제 앱 로그인</a>
+        <a class="hero-button secondary" href="#demo">합성 데모 체험</a>
+        <a class="hero-button secondary" href="./guide.html">상세 사용설명서</a>
+      </div>
+      <p class="access-note"><strong>로그인 안내:</strong> 공개된 공용 계정은 없습니다. 로그인 이름과 초기 비밀번호는 관리자에게 받으세요.</p>
     </header>
 
-    <nav class="main-nav" aria-label="주 메뉴">
+    <section class="service-intro" aria-labelledby="intro-title">
+      <div class="intro-heading">
+        <p class="eyebrow">처음 방문했다면</p>
+        <h2 id="intro-title">목적에 맞는 화면을 선택하세요</h2>
+        <p>실제 업무 사용, 안전한 합성 데이터 체험, 화면별 설명을 서로 분리했습니다.</p>
+      </div>
+      <div class="access-choice-grid">
+        <article class="access-card live">
+          <span class="access-label">실제 사용</span>
+          <h3>운영 앱 로그인</h3>
+          <p>관리자가 계정을 부여한 근무자가 실제 근무·휴가·대근 기록을 확인하고 입력합니다.</p>
+          <a href="https://shift-leave-pwa-operational.vercel.app" target="_blank" rel="noopener noreferrer">운영 앱 열기</a>
+        </article>
+        <article class="access-card demo">
+          <span class="access-label">가입 없이 체험</span>
+          <h3>합성 데이터 데모</h3>
+          <p>가짜 이름과 일정으로 주요 화면을 눌러 봅니다. 입력은 저장되지 않고 새로고침하면 초기화됩니다.</p>
+          <a href="#demo">아래에서 체험하기</a>
+        </article>
+        <article class="access-card guide">
+          <span class="access-label">처음 보는 사용자</span>
+          <h3>상세 사용설명서</h3>
+          <p>용어, 단위, 역할 차이, 저장 결과, 오류와 정정 방법을 화면별로 확인합니다.</p>
+          <a href="./guide.html">설명서 읽기</a>
+        </article>
+      </div>
+      <div class="feature-summary" role="list" aria-label="주요 기능">
+        <span role="listitem"><strong>근무표</strong> 개인·A/B/C/D·상주 일정</span>
+        <span role="listitem"><strong>월간 현황</strong> 휴가자·대근자·미충원</span>
+        <span role="listitem"><strong>시간 입력</strong> 0.5시간 단위와 선택 메모</span>
+        <span role="listitem"><strong>역할 분리</strong> 관리자·편집자·작업자·배우자</span>
+      </div>
+    </section>
+
+    <nav id="demo" class="main-nav" aria-label="합성 데모 주 메뉴">
       <div class="main-nav-tabs" role="tablist">
         <button type="button" role="tab" aria-selected="true" aria-controls="screen-personal" id="tab-work" data-screen="personal" data-nav-group="work">
           근무표
@@ -269,9 +308,15 @@
     </main>
 
     <footer class="site-footer">
+      <p><strong>운영 앱:</strong> 관리자가 부여한 이름·비밀번호로만 실제 기능과 데이터에 접근합니다.</p>
       <p><strong>공개 데모 한계:</strong> 실제 저장·인증·알림·백업·운영 권한 기능은 포함하지 않습니다.</p>
       <p>모든 이름과 일정은 설명을 위한 합성 예시입니다.</p>
-      <p><a class="guide-link" href="https://github.com/fullmetalsonic/shift-leave-pwa-demo">공개 GitHub 저장소</a></p>
+      <div class="footer-links">
+        <a class="guide-link" href="https://shift-leave-pwa-operational.vercel.app" target="_blank" rel="noopener noreferrer">실제 앱 로그인</a>
+        <a class="guide-link" href="./guide.html">상세 사용설명서</a>
+        <a class="guide-link" href="https://github.com/fullmetalsonic/shift-leave-pwa-demo">공개 GitHub 저장소</a>
+        <a class="guide-link" href="https://github.com/fullmetalsonic/shift-leave-pwa-demo/issues">문제 신고</a>
+      </div>
     </footer>
 
     <dialog id="entry-dialog" class="entry-dialog" aria-labelledby="dialog-title">

@@ -1,10 +1,12 @@
-# 교대근무 휴가·대근 공개 데모
+# 교대근무 휴가·대근 공개 소개·데모
 
-운영 앱의 사용 흐름을 합성 데이터로 설명하는 공개용 정적 데모입니다. 실제 계정, 회사 데이터, Supabase, 운영 API와 연결되지 않습니다.
+운영 앱 접속, 합성 데이터 체험과 상세 사용법을 한곳에서 안내하는 공개 소개 저장소입니다. 실제 계정·회사 데이터·Supabase·운영 API는 이 저장소와 데모에 포함하지 않습니다.
 
+- 실제 운영 앱: <https://shift-leave-pwa-operational.vercel.app>
 - 공개 데모: <https://fullmetalsonic.github.io/shift-leave-pwa-demo/>
 - 상세 사용설명서: <https://fullmetalsonic.github.io/shift-leave-pwa-demo/guide.html>
-- V1.1.0 Release: <https://github.com/fullmetalsonic/shift-leave-pwa-demo/releases/tag/demo-v1.1.0>
+- 문제 신고: <https://github.com/fullmetalsonic/shift-leave-pwa-demo/issues>
+- V1.2.0 Release: <https://github.com/fullmetalsonic/shift-leave-pwa-demo/releases/tag/demo-v1.2.0>
 
 ## 실제 데모 화면
 
@@ -18,6 +20,7 @@
 
 ## 공개 범위
 
+- 실제 운영 앱의 공개 로그인 화면 주소와 관리자 지정 이름·비밀번호 로그인 방법
 - `근무표` 안에서 전환하는 개인·전체 근무표
 - 월간 달력의 날짜별 주간조·야간조와 휴가자·현재 대근자 이름
 - 휴가와 자동 대근 수요의 관계
@@ -34,7 +37,9 @@
 - 운영 계정, 전화번호, 비밀번호, API 키와 환경파일
 - 실제 근무자·휴가·대근·공지·감사 로그와 백업 파일
 - 회사 내부 경로, 운영 체크리스트, 장애·복구 기록과 배포 식별자
-- 운영 앱 URL과 관리자 실행 기능
+- 실제 로그인 이름·비밀번호·사용자 목록과 관리자 실행 기능
+
+운영 앱 주소는 서비스 접속을 위해 공개하지만, 운영 저장소·백엔드 구조·계정 정보와 회사 데이터는 계속 비공개로 유지합니다.
 
 상세 공개 기준은 [`docs/DEMO_SCOPE.md`](docs/DEMO_SCOPE.md), 사용법은 [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md), 공개 전 검증은 [`docs/PUBLICATION_REVIEW.md`](docs/PUBLICATION_REVIEW.md)를 확인하세요.
 
