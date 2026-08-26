@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#123f50" />
+    <meta name="description" content="교대근무 휴가·대근 공개 데모 상세 사용설명서" />
+    <meta property="og:type" content="article" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content="교대근무 휴가·대근 상세 사용설명서" />
+    <meta property="og:description" content="화면 목적, 용어, 입력 단위, 저장 결과, 역할과 복구 방법" />
+    <link rel="canonical" href="https://fullmetalsonic.github.io/shift-leave-pwa-demo/guide.html" />
+    <title>상세 사용설명서 · 교대근무 데모</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body class="guide-page">
+    <a class="skip-link" href="#guide-content">본문으로 바로가기</a>
+    <header class="guide-hero">
+      <a class="back-link" href="./index.html">← 데모 화면으로 돌아가기</a>
+      <p class="eyebrow">합성 데이터 · 공개 문서</p>
+      <h1>교대근무 휴가·대근 상세 사용설명서</h1>
+      <p>처음 보는 사용자도 화면의 목적, 용어, 입력 단위와 저장 결과를 이해할 수 있도록 정리했습니다.</p>
+      <div class="guide-warning"><strong>데모 한계</strong><span>실제 계정·서버와 연결되지 않으며 모든 입력은 새로고침하면 사라집니다.</span></div>
+    </header>
+    <main id="guide-content" class="guide-content">
+      <nav class="toc" aria-label="설명서 목차">
+        <strong>목차</strong>
+        <a href="#common">공통 사용법</a><a href="#personal">내 근무표</a><a href="#all">전체근무</a><a href="#staffing">대근</a><a href="#schedule">일정</a><a href="#roles">역할 차이</a><a href="#errors">오류·복구</a>
+      </nav>
+
+      <section id="common" class="guide-section"><p class="section-number">01</p><h2>공통 사용법</h2><p>상단 메뉴로 5개 화면을 이동합니다. 각 화면의 파란 안내 상자에는 화면 목적과 반드시 알아야 할 내용이 항상 표시됩니다. 긴 순서는 <strong>이 화면 사용법</strong>을 펼쳐 확인합니다.</p><div class="guide-example"><strong>상태 구분</strong><p><span class="inline-warning">주의 · 저장 가능</span> 확인 후 계속할 수 있습니다.</p><p><span class="inline-error">저장 불가 · 입력 수정 필요</span> 필수값을 고쳐야 합니다.</p></div></section>
+
+      <section id="personal" class="guide-section"><p class="section-number">02</p><h2>내 근무표</h2><p>본인의 기본 근무와 휴가·대근·교육·지원 기록을 날짜별로 봅니다.</p><ol><li>달력에서 날짜를 선택합니다.</li><li>기본 근무시간과 등록 기록을 확인합니다.</li><li><strong>휴가 입력</strong> 또는 <strong>근무변경 입력</strong>을 선택합니다.</li><li>날짜·단위·시간을 확인하고 저장합니다.</li></ol><table><thead><tr><th>입력</th><th>단위와 예시</th><th>저장 후 변화</th></tr></thead><tbody><tr><td>휴가</td><td>일 · 종일 1일, 반일 0.5일</td><td>개인 달력에 휴가가 표시되고 조건에 따라 대근 수요 생성</td></tr><tr><td>대근</td><td>시간 · 예: 주간 12시간</td><td>근무 기록과 주간 합계에 반영</td></tr><tr><td>교육·지원</td><td>시간 · 0.5시간 간격</td><td>선택일 상세와 근로시간 경고에 반영</td></tr></tbody></table></section>
+
+      <section id="all" class="guide-section"><p class="section-number">03</p><h2>전체근무</h2><p>A/B/C/D조와 일반 상주·상주A·상주B의 일정을 비교합니다. 개인 사유와 메모는 표시하지 않습니다.</p><dl class="term-list"><div><dt>주 / 야 / 휴</dt><dd>주간 근무 / 야간 근무 / 휴무</dd></div><div><dt>상주A/B</dt><dd>서로 다른 격주 금요일 휴무를 사용하는 상주 예시</dd></div><div><dt>미1</dt><dd>아직 확정되지 않은 대근 인원이 1명</dd></div></dl></section>
+
+      <section id="staffing" class="guide-section"><p class="section-number">04</p><h2>대근 수요</h2><p><strong>대근 수요</strong>는 근무 공백을 채우기 위해 필요한 추가 인원입니다. <strong>미충원</strong>은 필요 인원에서 확정 인원을 뺀 값입니다.</p><ol><li>날짜·조·주간/야간을 확인합니다.</li><li>필요·지원·확정 인원을 확인합니다.</li><li>예상 주간 근로시간을 확인하고 지원합니다.</li><li>지원은 확정이 아니므로 이후 확정 상태를 다시 봅니다.</li></ol><div class="guide-example"><strong>자동 생성 조건 예시</strong><p>작업자가 기본 근무일에 휴가를 등록하고 `대근 필요`를 선택하면, 실제 앱은 해당 조와 주간/야간 근무에 맞는 수요를 자동으로 만들 수 있습니다. 휴무일이거나 대근 불필요를 선택하면 만들지 않습니다.</p></div></section>
+
+      <section id="schedule" class="guide-section"><p class="section-number">05</p><h2>일정·공지</h2><p>교육, 지원, 회사 일정과 중요 공지를 기간별로 확인합니다. 시작일과 종료일의 단위는 날짜이며, 예시는 2026-08-27~2026-08-28입니다. 대근 필요 인원이 1명 이상이면 일정과 수요를 연결할 수 있습니다.</p></section>
+
+      <section id="roles" class="guide-section"><p class="section-number">06</p><h2>역할별 작업 차이</h2><table><thead><tr><th>역할</th><th>가능한 작업</th><th>제한</th></tr></thead><tbody><tr><td>관리자</td><td>계정·권한·조 이동·대리입력·운영 복구</td><td>실제 운영 책임과 검증 필요</td></tr><tr><td>편집자</td><td>공지·대근 수요 관리</td><td>계정·권한 변경 불가</td></tr><tr><td>작업자</td><td>본인 기록 관리·공용 대근 확인</td><td>다른 사람 기록 수정 불가</td></tr><tr><td>배우자</td><td>공유받은 일정 읽기</td><td>개인 메모·대근·관리 기능 접근 불가</td></tr></tbody></table><p><strong>조 이동 적용일</strong>은 새 조 규칙이 시작되는 첫날입니다. 과거 기록은 지우지 않고 적용일부터 기본 근무표가 바뀝니다.</p></section>
+
+      <section id="errors" class="guide-section"><p class="section-number">07</p><h2>오류·정정·복구</h2><ul><li>필수 날짜·인원·시간이 없으면 저장을 막는 오류를 먼저 고칩니다.</li><li>근로시간 주의는 저장할 수 있지만 실제 운영 판단이 필요합니다.</li><li>잘못 저장했다면 해당 기록의 수정·취소·삭제 절차를 사용합니다.</li><li>운영 앱에서는 복원 전에 현재 개인 데이터를 안전 백업해야 합니다.</li><li>공개 데모는 새로고침하면 최초 합성 상태로 돌아갑니다.</li></ul></section>
+
+      <section class="guide-section limits"><p class="section-number">08</p><h2>안전·정확도 한계</h2><p>이 데모는 화면과 사용 흐름 설명용입니다. 합성 근무표를 급여, 인사, 법정 근로시간 또는 실제 현장 판단에 사용하지 마세요. 실제 운영 권한·DB·백업·알림 기능은 공개 데모에 포함되지 않습니다.</p></section>
+    </main>
+    <footer class="site-footer"><a class="guide-link" href="./index.html">데모 화면으로 돌아가기</a></footer>
+  </body>
+</html>

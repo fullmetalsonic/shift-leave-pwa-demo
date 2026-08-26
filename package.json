@@ -1,0 +1,19 @@
+{
+  "name": "shift-leave-pwa-demo",
+  "private": true,
+  "version": "1.0.0",
+  "packageManager": "pnpm@11.19.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "playwright test",
+    "test:desktop": "playwright test --project=desktop-chromium",
+    "test:mobile": "playwright test --project=mobile-chromium"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.62.1",
+    "vite": "8.2.0"
+  }
+}
