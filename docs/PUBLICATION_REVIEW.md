@@ -92,3 +92,16 @@ Remove-Item Env:DEMO_BASE_URL
 - 1440px·Pixel 7 최신 화면 캡처를 `docs/images`에 갱신하고 육안으로 링크 우선순위, 3열/1열 재배치, 잘림·겹침을 확인했다.
 - 운영 앱은 외부 비로그인 요청에서 HTTP 200과 자체 이름·비밀번호 로그인 화면을 반환한다.
 - Pages 게시 후 운영 앱·데모·설명서·GitHub Issues 링크와 실제 HTTP 응답을 다시 확인한다.
+
+### V1.2.0 게시 확인
+
+| 확인 | 결과 | 증거 |
+| --- | --- | --- |
+| 공개 기능 커밋 | PASS | `120824c9fb7d6032f72ed73bab396875b4467250` |
+| GitHub Actions·Pages | PASS | [Verify and deploy demo #32973570919](https://github.com/fullmetalsonic/shift-leave-pwa-demo/actions/runs/32973570919) |
+| 공개 소개 페이지 | PASS | HTTP 200, 새 제목·운영 앱 URL·세 가지 선택지 확인 |
+| 상세 사용설명서 | PASS | HTTP 200, `처음 접속하기`·운영 앱 URL 확인 |
+| Pages 실제 URL E2E | PASS | 데스크톱 4건·Pixel 7 4건, 총 8건 |
+| 운영 앱 연결 | PASS | 외부 비로그인 HTTP 200, Vercel 로그인 페이지 아님, 앱 자체 로그인 화면 |
+| Release | PASS | [공개 소개·데모 V1.2.0](https://github.com/fullmetalsonic/shift-leave-pwa-demo/releases/tag/demo-v1.2.0) |
+| Release ZIP 정합성 | PASS | 20,821 bytes, 재다운로드 SHA-256 `9F0CE703C3241A63D8D6942EC32494C4D588EF73085A404A7241181E1E75127B` 일치 |
